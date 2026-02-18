@@ -396,97 +396,224 @@ public class DataInitializer implements CommandLineRunner {
         };
     }
 
-    // ========== IMAGE URL POOLS ==========
+    // ========== IMAGE URL MAPPING ==========
 
-    private static final String[] ROBOT_IMAGES = {
-            "https://images.unsplash.com/photo-1563203369-26f2e4a5ccf7?w=600",
-            "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=600",
-            "https://images.unsplash.com/photo-1561557944-6e7860d1a7eb?w=600",
-            "https://images.unsplash.com/photo-1518314916381-77a37c2a49ae?w=600",
-            "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600",
-            "https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?w=600",
-            "https://images.unsplash.com/photo-1531746790095-e74972679037?w=600",
-            "https://images.unsplash.com/photo-1589254065878-42c014d0f398?w=600",
-            "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=600",
-            "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=600",
-            "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?w=600",
-            "https://images.unsplash.com/photo-1581093588401-fbb62a02f120?w=600",
-            "https://images.unsplash.com/photo-1581093450021-4a7360e9a6b5?w=600",
-            "https://images.unsplash.com/photo-1581093806997-124204d9fa9d?w=600",
-            "https://images.unsplash.com/photo-1601132359864-c974e79890ac?w=600",
-            "https://images.unsplash.com/photo-1547394765-185e1e68f34e?w=600",
+    private static final Map<String, String[]> MANUFACTURER_IMAGES = new LinkedHashMap<>();
+
+    private static final String[] FALLBACK_CNC = {
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Small_CNC_Turning_Center.jpg/640px-Small_CNC_Turning_Center.jpg",
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Werkzeugmaschine.JPG/640px-Werkzeugmaschine.JPG",
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/DeckelMaho-DMU50e-MachiningCenter.jpg/640px-DeckelMaho-DMU50e-MachiningCenter.jpg",
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Makino-S33-MachiningCenter.jpg/640px-Makino-S33-MachiningCenter.jpg",
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/FANUC_ROBODRILL_040.jpg/640px-FANUC_ROBODRILL_040.jpg",
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/C_32_U_RS3_1872.jpeg/640px-C_32_U_RS3_1872.jpeg",
     };
 
-    private static final String[] MILLING_IMAGES = {
-            "https://images.unsplash.com/photo-1565043589221-1a6fd9ae45c7?w=600",
-            "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=600",
-            "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=600",
-            "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=600",
-            "https://images.unsplash.com/photo-1586864387789-628af9feed72?w=600",
-            "https://images.unsplash.com/photo-1567789884554-0b844b597180?w=600",
-            "https://images.unsplash.com/photo-1537462715879-360eeb61a0ad?w=600",
-            "https://images.unsplash.com/photo-1624365169364-0640dd10e180?w=600",
-            "https://images.unsplash.com/photo-1562408590-e32931084e23?w=600",
-            "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=600",
-            "https://images.unsplash.com/photo-1590959651373-a3db0f38a961?w=600",
-            "https://images.unsplash.com/photo-1717386255773-1e3037c81c9a?w=600",
+    private static final String[] FALLBACK_ROBOT = {
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/FANUC_6-axis_welding_robots.jpg/640px-FANUC_6-axis_welding_robots.jpg",
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/KUKA_Industialroboter_IR_161.jpg/640px-KUKA_Industialroboter_IR_161.jpg",
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/ABB_welding_robot.jpg/640px-ABB_welding_robot.jpg",
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/UR16e_robot_arm.png/640px-UR16e_robot_arm.png",
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Motoman_Industrie-Schweissroboter.jpg/640px-Motoman_Industrie-Schweissroboter.jpg",
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Industry_Robot.jpg/640px-Industry_Robot.jpg",
     };
 
-    private static final String[] TURNING_IMAGES = {
-            "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=600",
-            "https://images.unsplash.com/photo-1565043589221-1a6fd9ae45c7?w=600",
-            "https://images.unsplash.com/photo-1537462715879-360eeb61a0ad?w=600",
-            "https://images.unsplash.com/photo-1567789884554-0b844b597180?w=600",
-            "https://images.unsplash.com/photo-1562408590-e32931084e23?w=600",
-            "https://images.unsplash.com/photo-1590959651373-a3db0f38a961?w=600",
-            "https://images.unsplash.com/photo-1624365169364-0640dd10e180?w=600",
-            "https://images.unsplash.com/photo-1586864387789-628af9feed72?w=600",
-            "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=600",
-            "https://images.unsplash.com/photo-1717386255773-1e3037c81c9a?w=600",
-    };
+    static {
+        // ─── CNC Manufacturers ──────────────────────────────────────────
+        MANUFACTURER_IMAGES.put("HAAS", new String[]{
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Small_CNC_Turning_Center.jpg/640px-Small_CNC_Turning_Center.jpg",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Makino_iQ300.jpg/640px-Makino_iQ300.jpg",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Werkzeugmaschine.JPG/640px-Werkzeugmaschine.JPG",
+        });
+        MANUFACTURER_IMAGES.put("DMG MORI", new String[]{
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/DeckelMaho-DMU50e-MachiningCenter.jpg/640px-DeckelMaho-DMU50e-MachiningCenter.jpg",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Werkzeugmaschine.JPG/640px-Werkzeugmaschine.JPG",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Small_CNC_Turning_Center.jpg/640px-Small_CNC_Turning_Center.jpg",
+        });
+        MANUFACTURER_IMAGES.put("Mazak", new String[]{
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/YAMAZAKI_MAZAK_Multi-Tasking_Machine_INTEGREX_i-200S_in_THE_YAMAZAKI_MAZAK_MUSEUM_OF_MACHINE_TOOLS_November_8%2C_2019_01.jpg/640px-YAMAZAKI_MAZAK_Multi-Tasking_Machine_INTEGREX_i-200S_in_THE_YAMAZAKI_MAZAK_MUSEUM_OF_MACHINE_TOOLS_November_8%2C_2019_01.jpg",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/YAMAZAKI_MAZAK_Multi-Tasking_Machine_INTEGREX_i-200S_in_THE_YAMAZAKI_MAZAK_MUSEUM_OF_MACHINE_TOOLS_November_8%2C_2019_03.jpg/640px-YAMAZAKI_MAZAK_Multi-Tasking_Machine_INTEGREX_i-200S_in_THE_YAMAZAKI_MAZAK_MUSEUM_OF_MACHINE_TOOLS_November_8%2C_2019_03.jpg",
+        });
+        MANUFACTURER_IMAGES.put("Okuma", new String[]{
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Okuma_MULTUS_U3000_multi-tasking_machine_with_automatic_tool_changer.jpg/640px-Okuma_MULTUS_U3000_multi-tasking_machine_with_automatic_tool_changer.jpg",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Okuma_MULTUS_U3000_multi-tasking_machine_with_automatic_tool_changer_2.jpg/640px-Okuma_MULTUS_U3000_multi-tasking_machine_with_automatic_tool_changer_2.jpg",
+        });
+        MANUFACTURER_IMAGES.put("Makino", new String[]{
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Makino-S33-MachiningCenter.jpg/640px-Makino-S33-MachiningCenter.jpg",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Makino_iQ300.jpg/640px-Makino_iQ300.jpg",
+        });
+        MANUFACTURER_IMAGES.put("FANUC_CNC", new String[]{
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/FANUC_ROBODRILL_040.jpg/640px-FANUC_ROBODRILL_040.jpg",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/FANUC_ROBODRILL_052.jpg/640px-FANUC_ROBODRILL_052.jpg",
+        });
+        MANUFACTURER_IMAGES.put("Hermle", new String[]{
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/C_32_U_RS3_1872.jpeg/640px-C_32_U_RS3_1872.jpeg",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Bearbeitungszentrum_Schnittmodell_Hermle_01.jpg/640px-Bearbeitungszentrum_Schnittmodell_Hermle_01.jpg",
+        });
+        MANUFACTURER_IMAGES.put("Trumpf", new String[]{
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Trumpf_TruLaser_Center_5030_2021-07-07.jpg/640px-Trumpf_TruLaser_Center_5030_2021-07-07.jpg",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Trumpf_TruLaser_Center_7030_2020-10-13.jpg/640px-Trumpf_TruLaser_Center_7030_2020-10-13.jpg",
+        });
+        MANUFACTURER_IMAGES.put("Doosan", new String[]{
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Small_CNC_Turning_Center.jpg/640px-Small_CNC_Turning_Center.jpg",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Werkzeugmaschine.JPG/640px-Werkzeugmaschine.JPG",
+        });
+        MANUFACTURER_IMAGES.put("Brother", new String[]{
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Werkzeugmaschine.JPG/640px-Werkzeugmaschine.JPG",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/FANUC_ROBODRILL_040.jpg/640px-FANUC_ROBODRILL_040.jpg",
+        });
+        MANUFACTURER_IMAGES.put("Hurco", new String[]{
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Makino-S33-MachiningCenter.jpg/640px-Makino-S33-MachiningCenter.jpg",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Small_CNC_Turning_Center.jpg/640px-Small_CNC_Turning_Center.jpg",
+        });
+        MANUFACTURER_IMAGES.put("Studer", new String[]{
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Studer_S33_Grinding_Machine.jpg/640px-Studer_S33_Grinding_Machine.jpg",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Small_CNC_Turning_Center.jpg/640px-Small_CNC_Turning_Center.jpg",
+        });
+        MANUFACTURER_IMAGES.put("GF Machining Solutions", new String[]{
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Makino-S33-MachiningCenter.jpg/640px-Makino-S33-MachiningCenter.jpg",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/C_32_U_RS3_1872.jpeg/640px-C_32_U_RS3_1872.jpeg",
+        });
+        MANUFACTURER_IMAGES.put("INDEX", new String[]{
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Small_CNC_Turning_Center.jpg/640px-Small_CNC_Turning_Center.jpg",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Werkzeugmaschine.JPG/640px-Werkzeugmaschine.JPG",
+        });
+        MANUFACTURER_IMAGES.put("Chiron", new String[]{
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/C_32_U_RS3_1872.jpeg/640px-C_32_U_RS3_1872.jpeg",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/DeckelMaho-DMU50e-MachiningCenter.jpg/640px-DeckelMaho-DMU50e-MachiningCenter.jpg",
+        });
+        MANUFACTURER_IMAGES.put("Grob", new String[]{
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/DeckelMaho-DMU50e-MachiningCenter.jpg/640px-DeckelMaho-DMU50e-MachiningCenter.jpg",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/C_32_U_RS3_1872.jpeg/640px-C_32_U_RS3_1872.jpeg",
+        });
+        MANUFACTURER_IMAGES.put("EMAG", new String[]{
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Small_CNC_Turning_Center.jpg/640px-Small_CNC_Turning_Center.jpg",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Werkzeugmaschine.JPG/640px-Werkzeugmaschine.JPG",
+        });
+        MANUFACTURER_IMAGES.put("Bystronic", new String[]{
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/CNC_Laser_Cutting_Machine.jpg/640px-CNC_Laser_Cutting_Machine.jpg",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Trumpf_TruLaser_Center_5030_2021-07-07.jpg/640px-Trumpf_TruLaser_Center_5030_2021-07-07.jpg",
+        });
+        MANUFACTURER_IMAGES.put("AMADA", new String[]{
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/CNC_Laser_Cutting_Machine.jpg/640px-CNC_Laser_Cutting_Machine.jpg",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Trumpf_TruLaser_Center_7030_2020-10-13.jpg/640px-Trumpf_TruLaser_Center_7030_2020-10-13.jpg",
+        });
+        MANUFACTURER_IMAGES.put("Sodick", new String[]{
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Makino_iQ300.jpg/640px-Makino_iQ300.jpg",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Makino-S33-MachiningCenter.jpg/640px-Makino-S33-MachiningCenter.jpg",
+        });
+        MANUFACTURER_IMAGES.put("Tormach", new String[]{
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/FANUC_ROBODRILL_052.jpg/640px-FANUC_ROBODRILL_052.jpg",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Small_CNC_Turning_Center.jpg/640px-Small_CNC_Turning_Center.jpg",
+        });
 
-    private static final String[] LASER_IMAGES = {
-            "https://images.unsplash.com/photo-1558611848-73f7eb4001a1?w=600",
-            "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=600",
-            "https://images.unsplash.com/photo-1565043589221-1a6fd9ae45c7?w=600",
-            "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=600",
-            "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=600",
-            "https://images.unsplash.com/photo-1537462715879-360eeb61a0ad?w=600",
-            "https://images.unsplash.com/photo-1624365169364-0640dd10e180?w=600",
-            "https://images.unsplash.com/photo-1590959651373-a3db0f38a961?w=600",
-    };
-
-    private static final String[] GRINDING_IMAGES = {
-            "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=600",
-            "https://images.unsplash.com/photo-1537462715879-360eeb61a0ad?w=600",
-            "https://images.unsplash.com/photo-1565043589221-1a6fd9ae45c7?w=600",
-            "https://images.unsplash.com/photo-1567789884554-0b844b597180?w=600",
-            "https://images.unsplash.com/photo-1562408590-e32931084e23?w=600",
-            "https://images.unsplash.com/photo-1586864387789-628af9feed72?w=600",
-    };
-
-    private static final String[] WIRE_EDM_IMAGES = {
-            "https://images.unsplash.com/photo-1565043589221-1a6fd9ae45c7?w=600",
-            "https://images.unsplash.com/photo-1537462715879-360eeb61a0ad?w=600",
-            "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=600",
-            "https://images.unsplash.com/photo-1562408590-e32931084e23?w=600",
-            "https://images.unsplash.com/photo-1586864387789-628af9feed72?w=600",
-            "https://images.unsplash.com/photo-1624365169364-0640dd10e180?w=600",
-    };
+        // ─── Robot Manufacturers ─────────────────────────────────────────
+        MANUFACTURER_IMAGES.put("FANUC_ROBOT", new String[]{
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/FANUC_6-axis_welding_robots.jpg/640px-FANUC_6-axis_welding_robots.jpg",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/FANUC_R2000iB_AtWork.jpg/640px-FANUC_R2000iB_AtWork.jpg",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/FANUC_R-2000iB_series_robot_021.jpg/640px-FANUC_R-2000iB_series_robot_021.jpg",
+        });
+        MANUFACTURER_IMAGES.put("KUKA", new String[]{
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/KUKA_Industialroboter_IR_161.jpg/640px-KUKA_Industialroboter_IR_161.jpg",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Innorobo_2015_-_Kuka_Robotics.JPG/640px-Innorobo_2015_-_Kuka_Robotics.JPG",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/KUKA_Industrial_Robot_KR_30-3.jpg/640px-KUKA_Industrial_Robot_KR_30-3.jpg",
+        });
+        MANUFACTURER_IMAGES.put("ABB", new String[]{
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/ABB_welding_robot.jpg/640px-ABB_welding_robot.jpg",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/ASEA_and_ABB_industrial_robots.jpg/640px-ASEA_and_ABB_industrial_robots.jpg",
+        });
+        MANUFACTURER_IMAGES.put("Yaskawa", new String[]{
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Motoman_Industrie-Schweissroboter.jpg/640px-Motoman_Industrie-Schweissroboter.jpg",
+                "https://upload.wikimedia.org/wikipedia/commons/e/e5/Robotworx-plasma-cutting-robot.jpg",
+        });
+        MANUFACTURER_IMAGES.put("Universal Robots", new String[]{
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/UR16e_robot_arm.png/640px-UR16e_robot_arm.png",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Cobot.jpg/640px-Cobot.jpg",
+        });
+        MANUFACTURER_IMAGES.put("Kawasaki", new String[]{
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Industry_Robot.jpg/640px-Industry_Robot.jpg",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/KUKA_Industialroboter_IR_161.jpg/640px-KUKA_Industialroboter_IR_161.jpg",
+        });
+        MANUFACTURER_IMAGES.put("Siasun", new String[]{
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Industry_Robot.jpg/640px-Industry_Robot.jpg",
+        });
+        MANUFACTURER_IMAGES.put("Comau", new String[]{
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/ABB_welding_robot.jpg/640px-ABB_welding_robot.jpg",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Industry_Robot.jpg/640px-Industry_Robot.jpg",
+        });
+        MANUFACTURER_IMAGES.put("Nachi", new String[]{
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/FANUC_6-axis_welding_robots.jpg/640px-FANUC_6-axis_welding_robots.jpg",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Industry_Robot.jpg/640px-Industry_Robot.jpg",
+        });
+        MANUFACTURER_IMAGES.put("Stäubli", new String[]{
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/UR16e_robot_arm.png/640px-UR16e_robot_arm.png",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Cobot.jpg/640px-Cobot.jpg",
+        });
+        MANUFACTURER_IMAGES.put("Denso", new String[]{
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Cobot.jpg/640px-Cobot.jpg",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/UR16e_robot_arm.png/640px-UR16e_robot_arm.png",
+        });
+        MANUFACTURER_IMAGES.put("Epson", new String[]{
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Cobot.jpg/640px-Cobot.jpg",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Industry_Robot.jpg/640px-Industry_Robot.jpg",
+        });
+        MANUFACTURER_IMAGES.put("Dobot", new String[]{
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Cobot.jpg/640px-Cobot.jpg",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/UR16e_robot_arm.png/640px-UR16e_robot_arm.png",
+        });
+        MANUFACTURER_IMAGES.put("Franka Emika", new String[]{
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Cobot.jpg/640px-Cobot.jpg",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/UR16e_robot_arm.png/640px-UR16e_robot_arm.png",
+        });
+        MANUFACTURER_IMAGES.put("Doosan Robotics", new String[]{
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/UR16e_robot_arm.png/640px-UR16e_robot_arm.png",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Cobot.jpg/640px-Cobot.jpg",
+        });
+        MANUFACTURER_IMAGES.put("Hyundai Robotics", new String[]{
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/FANUC_6-axis_welding_robots.jpg/640px-FANUC_6-axis_welding_robots.jpg",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/KUKA_Industialroboter_IR_161.jpg/640px-KUKA_Industialroboter_IR_161.jpg",
+        });
+        MANUFACTURER_IMAGES.put("Panasonic", new String[]{
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Motoman_Industrie-Schweissroboter.jpg/640px-Motoman_Industrie-Schweissroboter.jpg",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/FANUC_6-axis_welding_robots.jpg/640px-FANUC_6-axis_welding_robots.jpg",
+        });
+        MANUFACTURER_IMAGES.put("OTC Daihen", new String[]{
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Motoman_Industrie-Schweissroboter.jpg/640px-Motoman_Industrie-Schweissroboter.jpg",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/ABB_welding_robot.jpg/640px-ABB_welding_robot.jpg",
+        });
+        MANUFACTURER_IMAGES.put("IGM", new String[]{
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Motoman_Industrie-Schweissroboter.jpg/640px-Motoman_Industrie-Schweissroboter.jpg",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/FANUC_6-axis_welding_robots.jpg/640px-FANUC_6-axis_welding_robots.jpg",
+        });
+    }
 
     private String pickImageUrl(String manufacturer, ContentCategory category, MachineType machineType, int index) {
+        String key = manufacturer;
+        if ("FANUC".equals(manufacturer)) {
+            key = category == ContentCategory.ROBOTS ? "FANUC_ROBOT" : "FANUC_CNC";
+        }
+        if ("Mitsubishi Electric".equals(manufacturer)) {
+            key = category == ContentCategory.ROBOTS ? "Nachi" : "Sodick";
+        }
+
+        String[] images = MANUFACTURER_IMAGES.get(key);
+
+        if (images == null) {
+            for (Map.Entry<String, String[]> entry : MANUFACTURER_IMAGES.entrySet()) {
+                if (manufacturer.toLowerCase().contains(entry.getKey().toLowerCase()) ||
+                        entry.getKey().toLowerCase().contains(manufacturer.toLowerCase())) {
+                    images = entry.getValue();
+                    break;
+                }
+            }
+        }
+
+        if (images == null) {
+            images = category == ContentCategory.ROBOTS ? FALLBACK_ROBOT : FALLBACK_CNC;
+        }
+
         int hash = Math.abs((manufacturer + index).hashCode());
-        String[] pool = switch (machineType) {
-            case ROBOT -> ROBOT_IMAGES;
-            case MILLING -> MILLING_IMAGES;
-            case TURNING -> TURNING_IMAGES;
-            case MILL_TURN -> MILLING_IMAGES;
-            case LASER, PLASMA, WATERJET -> LASER_IMAGES;
-            case WIRE_EDM -> WIRE_EDM_IMAGES;
-            case GRINDING -> GRINDING_IMAGES;
-            case OTHER -> MILLING_IMAGES;
-        };
-        return pool[hash % pool.length];
+        return images[hash % images.length];
     }
 
     private Product buildFallbackProduct(User owner) {
