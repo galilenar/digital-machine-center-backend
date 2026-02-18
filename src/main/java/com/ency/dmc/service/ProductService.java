@@ -23,7 +23,9 @@ public class ProductService {
     private final UserRepository userRepository;
 
     public Page<ProductDto> search(ProductSearchRequest request) {
-        Pageable pageable = PageRequest.of(request.getPage(), request.getSize(), Sort.by("createdAt").descending());
+        String sortField = request.getSortBy() != null ? request.getSortBy() : "createdAt";
+        Sort.Direction direction = "asc".equalsIgnoreCase(request.getSortDir()) ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Pageable pageable = PageRequest.of(request.getPage(), request.getSize(), Sort.by(direction, sortField));
 
         Specification<Product> spec = buildSpecification(request);
         Page<Product> products = productRepository.findAll(spec, pageable);
