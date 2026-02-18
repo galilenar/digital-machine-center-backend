@@ -413,9 +413,11 @@ public class DataInitializer implements CommandLineRunner {
             "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/FANUC_6-axis_welding_robots.jpg/500px-FANUC_6-axis_welding_robots.jpg",
             "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/KUKA_Industialroboter_IR_161.jpg/500px-KUKA_Industialroboter_IR_161.jpg",
             "https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/ABB_welding_robot.jpg/500px-ABB_welding_robot.jpg",
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/UR16e_robot_arm.png/500px-UR16e_robot_arm.png",
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Cobot.jpg/500px-Cobot.jpg",
             "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Motoman_Industrie-Schweissroboter.jpg/500px-Motoman_Industrie-Schweissroboter.jpg",
             "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Industry_Robot.jpg/500px-Industry_Robot.jpg",
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/FANUC_R2000iB_AtWork.jpg/500px-FANUC_R2000iB_AtWork.jpg",
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/FANUC_R-2000iB_series_robot_021.jpg/500px-FANUC_R-2000iB_series_robot_021.jpg",
     };
 
     static {
@@ -527,8 +529,8 @@ public class DataInitializer implements CommandLineRunner {
                 "https://upload.wikimedia.org/wikipedia/commons/e/e5/Robotworx-plasma-cutting-robot.jpg",
         });
         MANUFACTURER_IMAGES.put("Universal Robots", new String[]{
-                "https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/UR16e_robot_arm.png/500px-UR16e_robot_arm.png",
                 "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Cobot.jpg/500px-Cobot.jpg",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Industry_Robot.jpg/500px-Industry_Robot.jpg",
         });
         MANUFACTURER_IMAGES.put("Kawasaki", new String[]{
                 "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Industry_Robot.jpg/500px-Industry_Robot.jpg",
@@ -546,12 +548,12 @@ public class DataInitializer implements CommandLineRunner {
                 "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Industry_Robot.jpg/500px-Industry_Robot.jpg",
         });
         MANUFACTURER_IMAGES.put("Stäubli", new String[]{
-                "https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/UR16e_robot_arm.png/500px-UR16e_robot_arm.png",
                 "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Cobot.jpg/500px-Cobot.jpg",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Industry_Robot.jpg/500px-Industry_Robot.jpg",
         });
         MANUFACTURER_IMAGES.put("Denso", new String[]{
                 "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Cobot.jpg/500px-Cobot.jpg",
-                "https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/UR16e_robot_arm.png/500px-UR16e_robot_arm.png",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/FANUC_R2000iB_AtWork.jpg/500px-FANUC_R2000iB_AtWork.jpg",
         });
         MANUFACTURER_IMAGES.put("Epson", new String[]{
                 "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Cobot.jpg/500px-Cobot.jpg",
@@ -559,14 +561,14 @@ public class DataInitializer implements CommandLineRunner {
         });
         MANUFACTURER_IMAGES.put("Dobot", new String[]{
                 "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Cobot.jpg/500px-Cobot.jpg",
-                "https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/UR16e_robot_arm.png/500px-UR16e_robot_arm.png",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Industry_Robot.jpg/500px-Industry_Robot.jpg",
         });
         MANUFACTURER_IMAGES.put("Franka Emika", new String[]{
                 "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Cobot.jpg/500px-Cobot.jpg",
-                "https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/UR16e_robot_arm.png/500px-UR16e_robot_arm.png",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/FANUC_R-2000iB_series_robot_021.jpg/500px-FANUC_R-2000iB_series_robot_021.jpg",
         });
         MANUFACTURER_IMAGES.put("Doosan Robotics", new String[]{
-                "https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/UR16e_robot_arm.png/500px-UR16e_robot_arm.png",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/FANUC_R2000iB_AtWork.jpg/500px-FANUC_R2000iB_AtWork.jpg",
                 "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Cobot.jpg/500px-Cobot.jpg",
         });
         MANUFACTURER_IMAGES.put("Hyundai Robotics", new String[]{
@@ -583,6 +585,57 @@ public class DataInitializer implements CommandLineRunner {
         });
         MANUFACTURER_IMAGES.put("IGM", new String[]{
                 "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Motoman_Industrie-Schweissroboter.jpg/500px-Motoman_Industrie-Schweissroboter.jpg",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/FANUC_6-axis_welding_robots.jpg/500px-FANUC_6-axis_welding_robots.jpg",
+        });
+        MANUFACTURER_IMAGES.put("Mecademic", new String[]{
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Cobot.jpg/500px-Cobot.jpg",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Industry_Robot.jpg/500px-Industry_Robot.jpg",
+        });
+        MANUFACTURER_IMAGES.put("Estun", new String[]{
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/FANUC_6-axis_welding_robots.jpg/500px-FANUC_6-axis_welding_robots.jpg",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/FANUC_R2000iB_AtWork.jpg/500px-FANUC_R2000iB_AtWork.jpg",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Industry_Robot.jpg/500px-Industry_Robot.jpg",
+        });
+        MANUFACTURER_IMAGES.put("Flexiv", new String[]{
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Cobot.jpg/500px-Cobot.jpg",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Industry_Robot.jpg/500px-Industry_Robot.jpg",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Motoman_Industrie-Schweissroboter.jpg/500px-Motoman_Industrie-Schweissroboter.jpg",
+        });
+        MANUFACTURER_IMAGES.put("Rainbow Robotics", new String[]{
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/FANUC_R-2000iB_series_robot_021.jpg/500px-FANUC_R-2000iB_series_robot_021.jpg",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/FANUC_R2000iB_AtWork.jpg/500px-FANUC_R2000iB_AtWork.jpg",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Industry_Robot.jpg/500px-Industry_Robot.jpg",
+        });
+        MANUFACTURER_IMAGES.put("Precise Automation", new String[]{
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Cobot.jpg/500px-Cobot.jpg",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Industry_Robot.jpg/500px-Industry_Robot.jpg",
+        });
+        MANUFACTURER_IMAGES.put("JAKA", new String[]{
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Cobot.jpg/500px-Cobot.jpg",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Industry_Robot.jpg/500px-Industry_Robot.jpg",
+        });
+        MANUFACTURER_IMAGES.put("AUBO", new String[]{
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Cobot.jpg/500px-Cobot.jpg",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Motoman_Industrie-Schweissroboter.jpg/500px-Motoman_Industrie-Schweissroboter.jpg",
+        });
+        MANUFACTURER_IMAGES.put("Elite Robots", new String[]{
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Industry_Robot.jpg/500px-Industry_Robot.jpg",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Cobot.jpg/500px-Cobot.jpg",
+        });
+        MANUFACTURER_IMAGES.put("Rokae", new String[]{
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Cobot.jpg/500px-Cobot.jpg",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/FANUC_6-axis_welding_robots.jpg/500px-FANUC_6-axis_welding_robots.jpg",
+        });
+        MANUFACTURER_IMAGES.put("Kassow Robots", new String[]{
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Cobot.jpg/500px-Cobot.jpg",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/FANUC_R2000iB_AtWork.jpg/500px-FANUC_R2000iB_AtWork.jpg",
+        });
+        MANUFACTURER_IMAGES.put("Hanwha", new String[]{
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Cobot.jpg/500px-Cobot.jpg",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Industry_Robot.jpg/500px-Industry_Robot.jpg",
+        });
+        MANUFACTURER_IMAGES.put("Techman Robot (Omron)", new String[]{
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Cobot.jpg/500px-Cobot.jpg",
                 "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/FANUC_6-axis_welding_robots.jpg/500px-FANUC_6-axis_welding_robots.jpg",
         });
     }
