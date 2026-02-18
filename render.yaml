@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: digital-machine-center-backend
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: CORS_ORIGINS
+        value: https://digital-machine-center-frontend.onrender.com
+      - key: PORT
+        value: "8080"
