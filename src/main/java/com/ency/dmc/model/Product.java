@@ -72,6 +72,7 @@ public class Product {
     private String sampleOutputCode;
 
     // Image URL
+    @Column(length = 1000)
     private String imageUrl;
 
     // Status
