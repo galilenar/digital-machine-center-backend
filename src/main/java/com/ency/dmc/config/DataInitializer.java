@@ -15,7 +15,9 @@ import org.springframework.stereotype.Component;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Component
@@ -105,6 +107,8 @@ public class DataInitializer implements CommandLineRunner {
         return users;
     }
 
+    private static final DateTimeFormatter DATE_FMT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
     @SuppressWarnings("unchecked")
     private List<Product> loadAndCreateProducts(List<User> users) {
         List<Product> products = new ArrayList<>();
@@ -112,63 +116,49 @@ public class DataInitializer implements CommandLineRunner {
 
         try {
             ObjectMapper mapper = new ObjectMapper();
-            InputStream is = new ClassPathResource("seed-machines.json").getInputStream();
-            List<Map<String, Object>> manufacturers = mapper.readValue(is, new TypeReference<>() {});
+            InputStream is = new ClassPathResource("seed-sprutcam.json").getInputStream();
+            List<Map<String, Object>> items = mapper.readValue(is, new TypeReference<>() {});
 
             int index = 0;
-            for (Map<String, Object> mfr : manufacturers) {
-                String manufacturer = (String) mfr.get("mfr");
-                String ctrlMfr = (String) mfr.get("ctrlMfr");
-                String ctrlSeries = (String) mfr.get("ctrlSeries");
-                String ctrlModel = (String) mfr.get("ctrlModel");
-                String catStr = (String) mfr.get("cat");
-                ContentCategory category = "ROBOT".equals(catStr)
-                        ? ContentCategory.ROBOTS : ContentCategory.CNC_MACHINES;
-
-                List<Map<String, Object>> groups = (List<Map<String, Object>>) mfr.get("groups");
-                for (Map<String, Object> group : groups) {
-                    String series = (String) group.get("series");
-                    String typeStr = (String) group.get("type");
-                    MachineType machineType = parseMachineType(typeStr);
-                    int axes = ((Number) group.get("axes")).intValue();
-
-                    String groupCtrlMfr = group.containsKey("ctrlMfr") ? (String) group.get("ctrlMfr") : ctrlMfr;
-                    String groupCtrlSeries = group.containsKey("ctrlSeries") ? (String) group.get("ctrlSeries") : ctrlSeries;
-                    String groupCtrlModel = group.containsKey("ctrlModel") ? (String) group.get("ctrlModel") : ctrlModel;
-
-                    List<String> models = (List<String>) group.get("models");
-                    for (String model : models) {
-                        Product p = buildProduct(
-                                index, manufacturer, series, model, category, machineType, axes,
-                                groupCtrlMfr, groupCtrlSeries, groupCtrlModel,
-                                users, rng
-                        );
-                        products.add(productRepository.save(p));
-                        index++;
-                    }
+            for (Map<String, Object> item : items) {
+                try {
+                    Product p = buildProductFromSprutcam(item, index, users, rng);
+                    products.add(productRepository.save(p));
+                } catch (Exception e) {
+                    log.warn("Skipping row {}: {}", index, e.getMessage());
                 }
+                index++;
             }
         } catch (Exception e) {
-            log.error("Failed to load seed-machines.json, falling back to minimal data", e);
+            log.error("Failed to load seed-sprutcam.json, falling back to minimal data", e);
             products.add(productRepository.save(buildFallbackProduct(users.get(1))));
         }
 
         return products;
     }
 
-    private Product buildProduct(
-            int index, String manufacturer, String series, String model,
-            ContentCategory category, MachineType machineType, int axes,
-            String ctrlMfr, String ctrlSeries, String ctrlModel,
-            List<User> users, Random rng
-    ) {
-        ContentType contentType = pickContentType(index, category, rng);
-        String contentTypeLabel = contentTypeLabel(contentType);
-        String productName = contentTypeLabel + " for " + manufacturer + " " + model;
+    private Product buildProductFromSprutcam(Map<String, Object> item, int index, List<User> users, Random rng) {
+        String name = str(item, "name");
+        String manufacturer = str(item, "machineManufacturer");
+        String series = str(item, "machineSeries");
+        String model = str(item, "machineModel");
+        String ctrlMfr = str(item, "controllerManufacturer");
+        String ctrlSeries = str(item, "controllerSeries");
+        String ctrlModel = str(item, "controllerModel");
+        String descriptionRaw = str(item, "description");
+        String authorRaw = str(item, "author");
+        String publisherRaw = str(item, "publisher");
+        String createdDateStr = str(item, "createdDate");
 
-        String description = generateDescription(
-                manufacturer, model, series, category, machineType, axes, contentType
-        );
+        ContentType contentType = parseContentType(str(item, "type"));
+        MachineType machineType = parseMachineType(str(item, "machineType"));
+        int axes = item.get("axes") instanceof Number n ? n.intValue() : 0;
+        ContentCategory category = machineType == MachineType.ROBOT
+                ? ContentCategory.ROBOTS : ContentCategory.CNC_MACHINES;
+
+        String description = descriptionRaw.isEmpty()
+                ? generateDescription(manufacturer, model, series, category, machineType, axes, contentType)
+                : descriptionRaw + ". " + generateDescription(manufacturer, model, series, category, machineType, axes, contentType);
 
         PublicationStatus pubStatus = pickPublicationStatus(rng);
         ExperienceStatus expStatus = pickExperienceStatus(rng);
@@ -177,23 +167,22 @@ public class DataInitializer implements CommandLineRunner {
 
         BigDecimal price = generatePrice(contentType, category, rng);
         int trialDays = rng.nextBoolean() ? 30 : 14;
-        int downloadCount = pubStatus == PublicationStatus.PUBLISHED
-                ? rng.nextInt(500) : 0;
+        int downloadCount = pubStatus == PublicationStatus.PUBLISHED ? rng.nextInt(500) : 0;
 
-        String kitContents = contentType == ContentType.DIGITAL_MACHINE_KIT
-                ? pickKitContents(rng) : null;
-
+        String kitContents = contentType == ContentType.DIGITAL_MACHINE_KIT ? pickKitContents(rng) : null;
         String supportedCodes = generateSupportedCodes(category, machineType);
+        String minSoftwareVersion = rng.nextInt(10) < 7 ? "SprutCAM X 17" : "SprutCAM X 16";
 
+        LocalDateTime createdAt = parseCreatedDate(createdDateStr);
         LocalDateTime publishedAt = pubStatus == PublicationStatus.PUBLISHED
-                ? LocalDateTime.now().minusDays(rng.nextInt(365) + 1) : null;
-
-        String minSoftwareVersion = rng.nextInt(10) < 7 ? "ENCY 2.0" : "ENCY 1.8";
+                ? createdAt.plusDays(rng.nextInt(30) + 1) : null;
 
         String imageUrl = pickImageUrl(manufacturer, category, machineType, index);
+        String productOwner = publisherRaw.isEmpty() ? owner.getCompany() : publisherRaw;
+        String authorName = authorRaw.isEmpty() ? owner.getFullName() : authorRaw;
 
         return Product.builder()
-                .name(productName)
+                .name(name)
                 .contentType(contentType)
                 .category(category)
                 .description(description)
@@ -208,8 +197,8 @@ public class DataInitializer implements CommandLineRunner {
                 .controllerSeries(ctrlSeries)
                 .controllerModel(ctrlModel)
                 .priceEur(price)
-                .productOwner(owner.getCompany())
-                .authorName(owner.getFullName())
+                .productOwner(productOwner)
+                .authorName(authorName)
                 .trialDays(trialDays)
                 .supportedCodes(supportedCodes)
                 .imageUrl(imageUrl)
@@ -218,12 +207,45 @@ public class DataInitializer implements CommandLineRunner {
                 .visibility(visibility)
                 .downloadCount(downloadCount)
                 .owner(owner)
+                .createdAt(createdAt)
                 .publishedAt(publishedAt)
                 .build();
     }
 
-    private MachineType parseMachineType(String type) {
+    private static String str(Map<String, Object> map, String key) {
+        Object v = map.get(key);
+        return v == null ? "" : v.toString().trim();
+    }
+
+    private LocalDateTime parseCreatedDate(String dateStr) {
+        if (dateStr == null || dateStr.isBlank()) return LocalDateTime.now().minusDays(365);
+        try {
+            return LocalDate.parse(dateStr, DATE_FMT).atStartOfDay();
+        } catch (Exception e) {
+            return LocalDateTime.now().minusDays(365);
+        }
+    }
+
+    private ContentType parseContentType(String type) {
         return switch (type) {
+            case "Post Processor" -> ContentType.POST_PROCESSOR;
+            case "Machine Schema" -> ContentType.MACHINE_SCHEMA;
+            case "Post Processor + Schema" -> ContentType.DIGITAL_MACHINE_KIT;
+            default -> ContentType.POST_PROCESSOR;
+        };
+    }
+
+    private MachineType parseMachineType(String type) {
+        if (type == null || type.isBlank()) return MachineType.OTHER;
+        return switch (type) {
+            case "Milling" -> MachineType.MILLING;
+            case "Turning" -> MachineType.TURNING;
+            case "Mill-Turn" -> MachineType.MILL_TURN;
+            case "EDM" -> MachineType.EDM;
+            case "Swiss" -> MachineType.SWISS;
+            case "Router" -> MachineType.ROUTER;
+            case "Gas/Plasma/Laser" -> MachineType.GAS_PLASMA_LASER;
+            case "Advanced Technology" -> MachineType.OTHER;
             case "MILLING" -> MachineType.MILLING;
             case "TURNING" -> MachineType.TURNING;
             case "MILL_TURN" -> MachineType.MILL_TURN;
@@ -234,32 +256,6 @@ public class DataInitializer implements CommandLineRunner {
             case "GRINDING" -> MachineType.GRINDING;
             case "ROBOT" -> MachineType.ROBOT;
             default -> MachineType.OTHER;
-        };
-    }
-
-    private ContentType pickContentType(int index, ContentCategory category, Random rng) {
-        if (category == ContentCategory.ROBOTS) {
-            return switch (index % 5) {
-                case 0, 1 -> ContentType.DIGITAL_MACHINE_KIT;
-                case 2 -> ContentType.POST_PROCESSOR;
-                case 3 -> ContentType.MACHINE_SCHEMA;
-                default -> ContentType.INTERPRETER;
-            };
-        }
-        return switch (rng.nextInt(10)) {
-            case 0, 1, 2 -> ContentType.POST_PROCESSOR;
-            case 3, 4, 5 -> ContentType.DIGITAL_MACHINE_KIT;
-            case 6, 7 -> ContentType.MACHINE_SCHEMA;
-            default -> ContentType.INTERPRETER;
-        };
-    }
-
-    private String contentTypeLabel(ContentType ct) {
-        return switch (ct) {
-            case POST_PROCESSOR -> "Post Processor";
-            case DIGITAL_MACHINE_KIT -> "Digital Machine Kit";
-            case MACHINE_SCHEMA -> "Machine Schema";
-            case INTERPRETER -> "Interpreter";
         };
     }
 
@@ -320,6 +316,10 @@ public class DataInitializer implements CommandLineRunner {
             case WATERJET -> "Waterjet cutting";
             case GRINDING -> "Grinding";
             case ROBOT -> "Robot";
+            case EDM -> "EDM";
+            case ROUTER -> "Router";
+            case SWISS -> "Swiss-type Turning";
+            case GAS_PLASMA_LASER -> "Gas/Plasma/Laser cutting";
             case OTHER -> "Multi-purpose";
         };
     }
@@ -386,12 +386,16 @@ public class DataInitializer implements CommandLineRunner {
                     "M0, M1, M3, M4, M5, M8, M9, M30, M41-M44";
             case MILL_TURN -> "G0, G1, G2, G3, G17, G18, G19, G28, G32, G40, G41, G42, G43, G50, G54-G59, G70-G76, G80-G89, G90, G91, G92, G96, G97\n" +
                     "M0, M1, M3, M4, M5, M6, M8, M9, M30, M41-M44";
-            case WIRE_EDM -> "G0, G1, G2, G3, G41, G42, G54-G59, G90, G91, G92\n" +
+            case WIRE_EDM, EDM -> "G0, G1, G2, G3, G41, G42, G54-G59, G90, G91, G92\n" +
                     "M0, M1, M2, M17, M20, M21, M30, M50, M60, M80";
-            case LASER -> "G0, G1, G2, G3, G17, G40, G41, G42, G54-G59, G90, G91\n" +
+            case LASER, GAS_PLASMA_LASER -> "G0, G1, G2, G3, G17, G40, G41, G42, G54-G59, G90, G91\n" +
                     "M0, M3, M5, M8, M9, M30";
             case GRINDING -> "G0, G1, G2, G3, G28, G54-G59, G90, G91\n" +
                     "M0, M3, M4, M5, M8, M9, M30";
+            case SWISS -> "G0, G1, G2, G3, G28, G32, G40, G41, G42, G50, G54-G59, G70-G76, G90, G92, G96, G97\n" +
+                    "M0, M1, M3, M4, M5, M8, M9, M30, M41-M44";
+            case ROUTER -> "G0, G1, G2, G3, G17, G40, G41, G42, G43, G54-G59, G80-G89, G90, G91\n" +
+                    "M0, M3, M5, M8, M9, M30";
             default -> "G0, G1, G2, G3, G90, G91\nM0, M3, M5, M30";
         };
     }

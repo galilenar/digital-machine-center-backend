@@ -111,7 +111,9 @@ public class Product {
 
     @PrePersist
     protected void onCreate() {
-        createdAt = LocalDateTime.now();
+        if (createdAt == null) {
+            createdAt = LocalDateTime.now();
+        }
         updatedAt = LocalDateTime.now();
         if (publicationStatus == null) {
             publicationStatus = PublicationStatus.DRAFT;

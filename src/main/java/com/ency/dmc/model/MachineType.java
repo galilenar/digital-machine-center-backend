@@ -10,5 +10,9 @@ public enum MachineType {
     WATERJET,
     GRINDING,
     ROBOT,
+    EDM,
+    ROUTER,
+    SWISS,
+    GAS_PLASMA_LASER,
     OTHER
 }
